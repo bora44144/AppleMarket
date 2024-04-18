@@ -1,11 +1,12 @@
-package com.android.applemarket
+package com.android.applemarket.presentation
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.android.applemarket.data.Product
 import com.android.applemarket.databinding.ProductRecyclerviewBinding
 
-class ProductAdapter(val pList: MutableList<Product>) : RecyclerView.Adapter<ProductAdapter.Holder>() {
+class ProductAdapter(val pList: List<Product>) : RecyclerView.Adapter<ProductAdapter.Holder>() {
 
     inner class Holder(val binding: ProductRecyclerviewBinding) : RecyclerView.ViewHolder(binding.root) {
         val image = binding.image
@@ -25,7 +26,7 @@ class ProductAdapter(val pList: MutableList<Product>) : RecyclerView.Adapter<Pro
         return pList.size
     }
 
-    override fun onBindViewHolder(holder: ProductAdapter.Holder, position: Int) {
+    override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.image.setImageResource(pList[position].image)
         holder.name.text = pList[position].name
         holder.address.text = pList[position].address

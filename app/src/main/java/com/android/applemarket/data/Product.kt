@@ -1,4 +1,4 @@
-package com.android.applemarket
+package com.android.applemarket.data
 
 data class Product(
     val number: Int,
