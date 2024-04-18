@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.android.applemarket.data.Product
 import com.android.applemarket.databinding.ProductRecyclerviewBinding
+import java.text.DecimalFormat
 
 class ProductAdapter(val pList: List<Product>) : RecyclerView.Adapter<ProductAdapter.Holder>() {
 
@@ -27,10 +28,13 @@ class ProductAdapter(val pList: List<Product>) : RecyclerView.Adapter<ProductAda
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
+        val dec = DecimalFormat("#,###")
+        val price = dec.format(pList[position].price)
+
         holder.image.setImageResource(pList[position].image)
         holder.name.text = pList[position].name
         holder.address.text = pList[position].address
-        holder.price.text = "${pList[position].price}원"
+        holder.price.text = "${price}원"
         holder.chatCount.text = pList[position].chatCount.toString()
         holder.likeCount.text = pList[position].likeCount.toString()
 
