@@ -76,6 +76,7 @@ class MainActivity : AppCompatActivity() {
     fun notification() {
         val manager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         val builder: NotificationCompat.Builder
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             // 26 버전 이상
             val channelId = "one-channel"
@@ -105,6 +106,18 @@ class MainActivity : AppCompatActivity() {
             // 26 버전 이하
             builder = NotificationCompat.Builder(this)
         }
+
+        // 사용자의 기기가 API 33 이상인지 확인한 후, 알림 권한 요청
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (!NotificationManagerCompat.from(this).areNotificationsEnabled()) {
+                // 알림 권한이 없다면, 사용자에게 권한 요청
+                val intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).apply {
+                    putExtra(Settings.EXTRA_APP_PACKAGE, packageName)
+                }
+                startActivity(intent)
+            }
+        }
+
         // 알림의 기본 정보
         builder.run {
             setSmallIcon(R.drawable.icon_circle_24)
