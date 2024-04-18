@@ -67,8 +67,6 @@
         android:id="@+id/chatIcon"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        tools:layout_editor_absoluteX="259dp"
-        tools:layout_editor_absoluteY="100dp"
         android:src="@drawable/icon_chat"
         app:layout_constraintEnd_toStartOf="@+id/chatCount"
         app:layout_constraintTop_toTopOf="@+id/chatCount"
@@ -84,13 +82,11 @@
         app:layout_constraintTop_toTopOf="@+id/likeIcon"
         app:layout_constraintBottom_toBottomOf="@+id/likeIcon"/>
 
-    <TextView
+    <ImageView
         android:id="@+id/likeIcon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="♡"
-        android:textSize="19sp"
-        android:textStyle="bold"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:src="@drawable/icon_heart"
         app:layout_constraintBottom_toBottomOf="@+id/likeCount"
         app:layout_constraintEnd_toStartOf="@+id/likeCount"
         app:layout_constraintTop_toTopOf="@+id/likeCount" />
