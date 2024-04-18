@@ -1,16 +1,40 @@
 package com.android.applemarket
 
+import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.OnBackPressedDispatcher
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.applemarket.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
+    private val onBackPressedCallback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            var builder = AlertDialog.Builder(this@MainActivity)
+            builder.setTitle("종료")
+            builder.setMessage("정말 종료하시겠습니까?")
+            builder.setIcon(R.drawable.icon_chat)
+
+            val listener = object : DialogInterface.OnClickListener {
+                override fun onClick(p0: DialogInterface?, p1: Int) {
+                    when (p1) {
+                        DialogInterface.BUTTON_POSITIVE ->
+                            finish()
+                    }
+                }
+            }
+            builder.setPositiveButton("확인", listener)
+            builder.setNegativeButton("취소", null)
+            builder.show()
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -29,6 +53,9 @@ class MainActivity : AppCompatActivity() {
         val adapter = ProductAdapter(productList)
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
+
+        this.onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
+
     }
 
 }
