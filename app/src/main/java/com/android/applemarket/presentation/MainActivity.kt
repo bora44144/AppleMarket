@@ -17,11 +17,20 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.applemarket.R
-import com.android.applemarket.data.productList
+import com.android.applemarket.data.DataSource
+import com.android.applemarket.data.Product
 import com.android.applemarket.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
+    private val binding : ActivityMainBinding by lazy {
+        ActivityMainBinding.inflate(layoutInflater)
+    }
+
+    private val productAdapter : ProductAdapter by lazy {
+        ProductAdapter { product ->
+            adapterOnClick(product)
+        }
+    }
 
     private val onBackPressedCallback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
@@ -45,20 +54,30 @@ class MainActivity : AppCompatActivity() {
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-        val adapter = ProductAdapter(productList())
+        val productList = DataSource.getDataSource().getProductList()
+        productAdapter.productList = productList
+        val adapter = productAdapter
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
 
         // BackButton 누르면 다이얼로그 띄우기
         this.onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
 
+        // 알림 버튼 클릭
         binding.notificationButton.setOnClickListener {
             notification()
         }
+    }
+
+    private fun adapterOnClick(product: Product) {
+        val intent = Intent(this, DetailActivity::class.java)
+        val bundle = Bundle().apply {
+            putParcelable(DetailActivity.EXTRA_PRODUCT, product)
+        }
+        intent.putExtras(bundle)
+        startActivity(intent)
     }
 
     fun notification() {
